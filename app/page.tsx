@@ -1,11 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "./page.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+  const [location, setLocation] = useState("");
+
+  const handleOnSearchClick = () => {
+    if (location !== "banana") {
+      router.push("/search");
+    }
+  };
+
   return (
     <main className="bg-gray-100 min-h-screen w-screen">
       <main className="max-w-screen-2xl m-auto bg-white">
@@ -30,8 +43,16 @@ export default function Home() {
               <h1 className="text-white text-5xl font-bold mb-2">Find your table for any occasion</h1>
               {/* SEARCH BAR */}
               <div className="text-left text-lg py-3 m-auto flex justify-center">
-                <input className="rounded  mr-3 p-2 w-[450px]" type="text" placeholder="State, city or town" />
-                <button className="rounded bg-red-600 px-9 py-2 text-white">Let's go</button>
+                <input
+                  className="rounded  mr-3 p-2 w-[450px]"
+                  type="text"
+                  placeholder="State, city or town"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <button className="rounded bg-red-600 px-9 py-2 text-white" onClick={handleOnSearchClick}>
+                  Let's go
+                </button>
               </div>
               {/* SEARCH BAR */}
             </div>
