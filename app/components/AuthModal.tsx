@@ -27,6 +27,19 @@ export default function AuthModal({ isSignin }: AuthModalProps) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [inputs, setInputs] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    city: "",
+    password: "",
+  });
+
+  const handleChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <button className={`border p-1 px-4 rounded mr-3 ${isSignin && "bg-blue-400 text-white"}`} onClick={handleOpen}>
@@ -47,7 +60,7 @@ export default function AuthModal({ isSignin }: AuthModalProps) {
             <h2 className="text-2xl font-light text-center">
               {isSignin ? "Log Into Your Account" : "Create your OpenTable account"}
             </h2>
-            <AuthModalInputs />
+            <AuthModalInputs inputs={inputs} handleChangeInputs={handleChangeInputs} isSignin={isSignin} />
             <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
               {isSignin ? "Sign in" : "Create account"}
             </button>
