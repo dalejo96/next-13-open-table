@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, createContext } from "react";
+import { useState, createContext, useContext } from "react";
 
 interface AuthContextProps {
   children: React.ReactNode;
@@ -44,3 +44,9 @@ export default function AuthContext({ children }: AuthContextProps) {
     <AuthenticationContext.Provider value={{ ...authState, setAuthState }}>{children}</AuthenticationContext.Provider>
   );
 }
+
+export const useAuthContext = () => {
+  const { error, loading, data, setAuthState } = useContext(AuthenticationContext);
+
+  return [data, loading, error, setAuthState] as const;
+};
