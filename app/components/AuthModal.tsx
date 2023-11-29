@@ -30,7 +30,7 @@ export default function AuthModal({ isSignin }: AuthModalProps) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { signIn, signUp } = useAuth();
-  const [data, isLoading, error] = useAuthContext();
+  const { loading, error } = useAuthContext();
 
   const [inputs, setInputs] = useState({
     firstName: "",
@@ -79,7 +79,7 @@ export default function AuthModal({ isSignin }: AuthModalProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {isLoading ? (
+          {loading ? (
             <div className="py-24 px-2 flex justify-center">
               <CircularProgress />
             </div>

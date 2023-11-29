@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
 import { useAuthContext } from "../app/context/AuthContext";
 
 interface SignIn {
@@ -19,13 +19,14 @@ interface SignUp {
 }
 
 const useAuth = () => {
-  const [data, loading, error, setAuthState] = useAuthContext();
+  const { data, loading, error, setAuthState } = useAuthContext();
   const signIn = async ({ email, password, handleClose }: SignIn) => {
     setAuthState({ data: null, error: null, loading: true });
     try {
       const response = await axios.post("http://localhost:3000/api/auth/signin", { email, password });
       setAuthState({ data: response.data, error: null, loading: false });
-      handleClose();
+      console.log(response)
+      //handleClose();
     } catch (error: any) {
       setAuthState({ data: null, error: error.response.data.errorMessage, loading: false });
     }
@@ -34,7 +35,6 @@ const useAuth = () => {
   const signUp = async ({ email, password, firstName, lastName, city, phone, handleClose }: SignUp) => {
     setAuthState({ data: null, error: null, loading: true });
     try {
-      console.log(email, password, firstName, lastName, city, phone);
       const response = await axios.post("http://localhost:3000/api/auth/signup", {
         email,
         password,
@@ -50,7 +50,12 @@ const useAuth = () => {
     }
   };
 
-  return { signIn, signUp };
+  const signOut = () => {
+    deleteCookie("jwt");
+    setAuthState({ data: null, error: null, loading: false });
+  };
+
+  return { signIn, signUp, signOut };
 };
 
 export default useAuth;

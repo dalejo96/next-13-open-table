@@ -36,7 +36,7 @@ const AuthenticationContext = createContext<AuthState>({
 
 export default function AuthContext({ children }: AuthContextProps) {
   const defaultAuth = {
-    loading: false,
+    loading: true,
     data: null,
     error: null,
   };
@@ -74,8 +74,4 @@ export default function AuthContext({ children }: AuthContextProps) {
   );
 }
 
-export const useAuthContext = () => {
-  const { error, loading, data, setAuthState } = useContext(AuthenticationContext);
-
-  return [data, loading, error, setAuthState] as const;
-};
+export const useAuthContext = () => useContext(AuthenticationContext);
